@@ -1,0 +1,28 @@
+@media screen and (max-width: 993px) {
+  .iconePanier {
+    position: fixed;
+    top: 3px;
+    left: auto;
+    right: 100px;
+  }
+}
+
+.active {
+  font-weight: 700 !important;
+  position: relative;
+}
+.active::after {
+  content: "";
+  position: absolute;
+  width: 90%;
+  height: 2px;
+  background-color: red;
+  bottom: 2px;
+  left: 5px;
+  right: 5px;
+}
+@media screen and (max-width: 993px) {
+  .active::after {
+    display: none;
+  }
+}/*# sourceMappingURL=nav.css.map */

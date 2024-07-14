@@ -1,0 +1,53 @@
+.banier{
+    height: 400px;
+    background-image: url("/assets/menu/header_img.png");
+    display: flex;
+    flex-direction: column;
+   justify-content: center;
+   color: white;
+  }
+  .banier button{
+    width: 170px;
+    color: white;
+    outline: none;
+  }
+
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+  
+  
+  
+  .imageHome {
+    position: relative !important;
+  }
+  .imageHome .icone{
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    
+    transform: scale(2);
+    transition: all ease-in-out .5s;
+    border-radius: 100%;
+    background-color: white;
+  }
+  .imageHome .icone:hover{
+    border: 2px solid red;
+  }
+  
+  #Menu .selectList {
+    width: 150px;
+    display: none;
+  }
+  @media screen and (max-width: 800px) {
+    #Menu .selectList {
+      display: block;
+    }
+  }
+  @media screen and (max-width: 800px) {
+    #Menu .hide, #Menu .buttonSelect {
+      display: none;
+    }
+  }
