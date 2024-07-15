@@ -14,9 +14,11 @@ function Home() {
           <p className="fs-1">Commande ta nurriture <br /> favorie ici</p>
           <p className="fs-5">
               Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic
+              <span className="d-lg-block d-sm-none d-md-block cacheText">
               voluptatem ab, repellat explicabo neque quam deserunt unde
               ratione molestiae consectetur deleniti quis eius dolore numquam
               vitae nam totam officiis dolorem.
+              </span>
           </p>
           <button onClick={()=>navigateTo('/menu')} className="btn border-primary rounded-pill">Voir les menus</button>
           </article>

@@ -73,6 +73,7 @@ function Commentaire({id}) {
 
              Axios.post(host+"/api/commt/post",commt).then(res=>{
                setComment("")
+               setValid(true)
              }).catch(err=>{
                console.log(err);
              })

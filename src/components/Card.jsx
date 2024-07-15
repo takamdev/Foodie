@@ -31,7 +31,7 @@ export default function Card({ produit }) {
                 className="card-img-top"
                 alt="image"
                 width={100000}
-                height={300}
+                height={250}
                 role="button"
                 onClick={redirection}
 
@@ -39,7 +39,11 @@ export default function Card({ produit }) {
             <AiFillPlusCircle onClick={()=>{addToCard(produit._id)}} role="button" className="icone" />
          </div>
          <div className="card-body">
-            <h5 className="card-title hstack"><span className="fs-5">{produit.name}</span> <span className="ms-auto fs-3">★ ★ <i className="text-danger">★</i></span></h5>
+            <h5 className="card-title hstack"><span className="titre me-auto">{
+               
+               produit.name.length>8 ? produit.name.slice(0,8)+"..." : produit.name
+               
+               }</span> <span className="ms-auto titre ">★ ★ <i className="text-danger">★</i></span></h5>
             <p className="card-text">
                {produit.description}
             </p>

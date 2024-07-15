@@ -58,7 +58,7 @@ function Sendotp({setvue,setVueGlobal,dataUser}) {
                 ):(
                     <form onSubmit={handleSubmit(onSubmit)} className='vstack align-items-center'>
                     <h3 className='text-center'>vérification OTP</h3>
-                    <p className='text-center'>nous avons envoyez un code de verification a l &apos; addresse: <b>{dataUser.email}</b></p>
+                    <p className='text-center'>nous avons envoyez un code de verification a l&apos;addresse: <b>{dataUser.email}</b></p>
                     <input onChange={()=>setError(false)}  {...register("token")} type="text" className='form-control w-50' placeholder='entrez le code' />
                     <p>{errors.token?.message}</p>                                                                                                                                    
                     {errOtp&&<p className='text-danger'>le code que vous avez saisie est invalide</p>}

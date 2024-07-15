@@ -31,7 +31,7 @@ const addToCard =()=>{
   }
 
   return (
-    <section className='container'>
+    <section className='container mt-5'>
      <article className='row'>
         <div className="col-lg-4 col-md-6 col-sm-12">
            <img src={`/${Produit.image}`}  alt="image" className='w-100 h-100' />

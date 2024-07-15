@@ -14,10 +14,12 @@ import { toast } from "sonner";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
 function Navbar() {
+    const navigateTo = useNavigate()
     const [vue,setVue]= useState(false)
     const[reset,setReset]=useState(false)
     const isConnect = useStore((state)=>state.isConnect)
@@ -170,9 +172,9 @@ const closeNav = ()=>{
                       )
                     }
                  </button>
-                 <Link to="/histo-commande" className="btn btn-primary ms-auto"  >
+                 <button  onClick={()=>{navigateTo("/histo-commande")}} data-bs-dismiss="offcanvas" aria-label="Close" className="btn btn-primary ms-auto"  >
                     historique de commandes
-                 </Link>
+                 </button>
               </div>
             
             )

@@ -29,6 +29,14 @@ function Root() {
       <Footer/>
       </main>
     )
+  }else{
+    return (
+
+        <div className="loading">
+           <p><span className="spinner-border text-info" style={{width:"5rem",height:"5rem"}} ></span></p>
+        </div>
+
+    )
   }
  
 
