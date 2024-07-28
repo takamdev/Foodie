@@ -1,6 +1,6 @@
 
 import { TbSquarePlus } from "react-icons/tb";
-import { CgRemoveR } from "react-icons/cg"; 
+import { CgBookmark, CgRemoveR } from "react-icons/cg"; 
 import { AiFillDelete } from "react-icons/ai"; 
 import { GiShoppingCart } from "react-icons/gi";
 import { FaUserAlt } from "react-icons/fa"; 
@@ -15,7 +15,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 
 function Navbar() {
@@ -28,6 +29,18 @@ function Navbar() {
     const host = useStore((state)=>state.host)
     const resetCard = useStore((state)=>state.resetCard)
     const [load,SetLoad]=useState(true)
+    // gesion des session avec cookie
+  useEffect(()=>{
+    const cookieValue = Cookies.get('personn');
+    if (cookieValue!==undefined) {
+      const parsedObject = JSON.parse(cookieValue);
+      setConnect([parsedObject])
+    } else {
+      setConnect([])
+
+    }
+  },[])
+
     const addQte = (id)=>{
         let newCart =Card.map(item=>{
            if(item.qte<10){
@@ -102,7 +115,7 @@ const commmander=()=>{
           authorization:`Bearer ${token}`
         }
       })
-     Axios.post(host+'/api/commande/post',commd).then(res=>{
+     Axios.post(host+'/api/commande/post',commd).then(()=>{
       if(index===Card.length-1){SetLoad(true) ,resetCard([])}
      }).catch(({response})=>{
       if(index===Card.length-1){SetLoad(true), resetCard([])}
@@ -116,6 +129,10 @@ const closeNav = ()=>{
   const currentWidth = window.innerWidth;
   if(currentWidth<993) document.querySelector("#navbarToggle").click()
 
+}
+const logOut = ()=>{
+  Cookies.remove("personn")
+  setConnect([])
 }
   return (
   <>
@@ -263,7 +280,7 @@ const closeNav = ()=>{
                     </p>
                     <ul className="dropdown-menu dropdown-menu-end">
                         <li role="button" className="dropdown-item">{isConnect[0].userName}</li>
-                        <li role="button" className="dropdown-item" onClick={()=>setConnect([])}>log out</li>
+                        <li role="button" className="dropdown-item" onClick={logOut}>log out</li>
                       
                     </ul>
                     </div>

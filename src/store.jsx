@@ -1,9 +1,6 @@
 import { create } from 'zustand'
 
 export const useStore = create((set) => {
-const personne = JSON.parse(localStorage.getItem('personne'))||[]
-
-
 
 
   return  {
@@ -11,11 +8,8 @@ const personne = JSON.parse(localStorage.getItem('personne'))||[]
     menu:[],
     updateProduit:(list)=>set(()=>({produit:list})),
     updateMenu:(list)=>set(()=>({menu:list})),
-    isConnect:personne,
-    setConnect: (user)=>set(()=>{
-        localStorage.setItem('personne',JSON.stringify(user))
-        return {isConnect:user}
-    }),
+    isConnect:[],
+    setConnect: (user)=>set(()=>({isConnect:user})),
     CARD:[],
     addProduit:(produit)=>set((state)=>({CARD:[...state.CARD,{...produit,qte:1}]})),
     currentCommd:[],//commande en cours

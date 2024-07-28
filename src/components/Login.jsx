@@ -4,6 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import axios from 'axios'
 import { useStore } from '../store.jsx'
+import Cookies from 'js-cookie'
 //shema de validation du formulaire
 const schema = yup
   .object({
@@ -75,7 +76,19 @@ function Login({setVue,vue,resetform}) {
       axios.post(host+'/api/sign',user).then(response=>{
         //chargement terminer
         setLoad(true)
-        setConnect([response.data])
+
+        Cookies.set("personn",JSON.stringify(response.data),{expires:1})
+        
+        const cookieValue = Cookies.get('personn');
+        if (cookieValue!==undefined) {
+          const parsedObject = JSON.parse(cookieValue);
+          setConnect([parsedObject])
+        } else {
+          setConnect([])
+
+        }
+
+        
         //recuperer les commande de l'utilisateur
         getCommande(response.data.id,response.data.token)
         //rafraichir le formulaire et fermerture du modal
