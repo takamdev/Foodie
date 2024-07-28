@@ -1,6 +1,5 @@
 
 import { TbSquarePlus } from "react-icons/tb";
-import { CgBookmark, CgRemoveR } from "react-icons/cg"; 
 import { AiFillDelete } from "react-icons/ai"; 
 import { GiShoppingCart } from "react-icons/gi";
 import { FaUserAlt } from "react-icons/fa"; 
@@ -17,6 +16,7 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
+import { CgRemoveR } from "react-icons/cg";
 
 
 function Navbar() {
