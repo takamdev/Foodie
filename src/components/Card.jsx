@@ -4,13 +4,18 @@ import { AiFillPlusCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../store.jsx";
 import { toast } from "sonner";
+
 export default function Card({ produit }) {
+
    const addCard = useStore((state)=>state.addProduit)
    const Card = useStore((state)=>state.CARD)
+
     const navigateTo = useNavigate()
+
     const redirection = ()=>{
       navigateTo(`/produit/${produit._id}`)
     }
+
     const addToCard =(id)=>{
       const isExiste = Card.find(item=>item._id===id)
       if(!isExiste){
@@ -22,6 +27,7 @@ export default function Card({ produit }) {
       }
       
     }
+    
    return (
       <div className="card">
          <div className="imageHome">
