@@ -4,9 +4,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import Sendotp from './Sendotp.jsx'
-import axios from 'axios'
-import { useStore } from '../store.jsx'
-
+import  {reqRegister}  from "./../api/service.js";
 const schema = yup
   .object({
     userName: yup.string().required(),
@@ -23,7 +21,6 @@ function SignUp({setVue,vue,resetform}) {
    const [thisVue ,setThisVue]=useState(true)
    const [load , setLoad]= useState(true)
    const [message,setMessge]=useState('')
-   const host = useStore((state)=>state.host)
    const [error,setError]=useState(false)//etat d'affichage de l'erreur
 
     const {
@@ -56,25 +53,18 @@ function SignUp({setVue,vue,resetform}) {
             password:data.password,
 
        }
-
-       axios.post(host+'/api/sign-up',user).then(response =>{
+       reqRegister(user).then(()=>{
         setLoad(true)
         setThisVue(false)
         reset()
-       }).catch(({res})=>{
+       }).catch((response)=>{
   
-        setMessge(res.data.message)
+        setMessge(response.data.message)
         setLoad(true)
         setError(true)
        })
 
       }
-
-
-
-
-
-
 
   return (
     <>

@@ -10,13 +10,13 @@ import Login from "./Login.jsx";
 import SignUp from "./SignUp.jsx";
 import { useStore } from "./../store.jsx";
 import { toast } from "sonner";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useEffect } from "react";
 import { CgRemoveR } from "react-icons/cg";
+import { reqCommande } from "../api/service.js";
 
 
 function Navbar() {
@@ -26,15 +26,18 @@ function Navbar() {
     const isConnect = useStore((state)=>state.isConnect)
     const setConnect =useStore((state)=>state.setConnect)
     const Card = useStore((state)=>state.CARD)
-    const host = useStore((state)=>state.host)
     const resetCard = useStore((state)=>state.resetCard)
     const [load,SetLoad]=useState(true)
     // gesion des session avec cookie
   useEffect(()=>{
+    Cookies.remove("personn")
     const cookieValue = Cookies.get('personn');
+    
+    
     if (cookieValue!==undefined) {
-      const parsedObject = JSON.parse(cookieValue);
-      setConnect([parsedObject])
+ 
+     const parsedObject = JSON.parse(cookieValue);
+     setConnect([parsedObject])
     } else {
       setConnect([])
 
@@ -76,23 +79,7 @@ function Navbar() {
 
     const deleteProduitToCart =(id)=>{
        let newCart = Card.filter(item=>item._id!==id)
-       resetCard(newCart)
-       const idUitl=isConnect[0].id
-       const token = isConnect[0].token //authorization
-       const Axios = axios.create({
-        headers:{
-          authorization:`Bearer ${token}`
-        }
-       })
-       Axios.post(host+`/api/commd/delete/${id}`,{userId:idUitl}).then(res=>{
-        resetCard(newCart)
-        toast.success(res.data.message,{
-          className:'text-success'
-        })
-       }).catch(err=>{
-        console.log(err);
-       })
-       
+       resetCard(newCart)  
     }
 const commmander=()=>{
   if(Card.length===0){
@@ -102,25 +89,23 @@ const commmander=()=>{
   }else{
     SetLoad(false)
     for (let index = 0; index < Card.length; index++) {
+      const user = isConnect[0]
       const idUitl=isConnect[0].id
-      const token = isConnect[0].token //authorization
       const commd ={
         id_prod_comd:Card[index]._id,
         id_util_comd:idUitl,
         qte:Card[index].qte,
         userId:idUitl
       }
-      const Axios = axios.create({
-        headers:{
-          authorization:`Bearer ${token}`
-        }
-      })
-     Axios.post(host+'/api/commande/post',commd).then(()=>{
-      if(index===Card.length-1){SetLoad(true) ,resetCard([])}
-     }).catch(({response})=>{
-      if(index===Card.length-1){SetLoad(true), resetCard([])}
-      console.log(response.data);
-     })
+     
+      reqCommande(commd,user).then(()=>{
+        if(index===Card.length-1){SetLoad(true) ,resetCard([])}
+       }).catch((response)=>{
+        if(index===Card.length-1){SetLoad(true), resetCard([])}
+        console.log(response.data);
+       })
+
+     
     }
   }
   

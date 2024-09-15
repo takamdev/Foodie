@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import axios from 'axios'
 import { useStore } from '../store.jsx'
 import Cookies from 'js-cookie'
+import { reqGetCommande, reqLogin } from '../api/service.js'
 //shema de validation du formulaire
 const schema = yup
   .object({
@@ -17,34 +17,28 @@ function Login({setVue,vue,resetform}) {
   const [error,setError]=useState(false)//etat d'affichage de l'erreur
   const [message,setMessage]=useState('')
   const setConnect = useStore((state)=>state.setConnect)
-  const host = useStore((state)=>state.host)
+
   const produit = useStore((state)=>state.produit)
   const addProduits =useStore((state)=>state.addProduits)
 
 
   const getCommande = (id,token)=>{
-    const Axios = axios.create({
-      headers:{
-        authorization:`Bearer ${token}`,
-        userId:id
-      }
-    })
+    reqGetCommande(id,token).then(res=>{
+      let commandes = res.data.commande
+      let newCartProduit = commandes.map(commd=>{
+         
+            let getProduit = produit.find(item=>item._id===commd.id_prod_comd)
+            let commande = {...getProduit,qte:commd.qte}
+             
+              
+           return commande
+         
+          })
+     addProduits(newCartProduit)      
+  }).catch(error=>{
+    console.log(error);
+  })
 
-    Axios.get(host+`/api/commande/${id}`).then(res=>{
-        let commandes = res.data.commande
-        let newCartProduit = commandes.map(commd=>{
-           
-              let getProduit = produit.find(item=>item._id===commd.id_prod_comd)
-              let commande = {...getProduit,qte:commd.qte}
-               
-                
-             return commande
-           
-            })
-       addProduits(newCartProduit)      
-    }).catch(error=>{
-      console.log(error);
-    })
   }
   const {
     register,
@@ -72,35 +66,37 @@ function Login({setVue,vue,resetform}) {
         ref:data.email,
         password:data.password
       }
-
-      axios.post(host+'/api/sign',user).then(response=>{
-        //chargement terminer
-        setLoad(true)
-
-        Cookies.set("personn",JSON.stringify(response.data),{expires:1})
-        
-        const cookieValue = Cookies.get('personn');
-        if (cookieValue!==undefined) {
-          const parsedObject = JSON.parse(cookieValue);
-          setConnect([parsedObject])
-        } else {
-          setConnect([])
-
-        }
-
-        
-        //recuperer les commande de l'utilisateur
-        getCommande(response.data.id,response.data.token)
-        //rafraichir le formulaire et fermerture du modal
-        reset()
-        document.querySelector("#clodeModal").click()
-      }).catch(({response})=>{
-        //affichage de l'erreur
-        setMessage(response.data.message)
-        setError(true)
-        //chargement terminer
-        setLoad(true)
-      })
+        reqLogin(user).then(response=>{
+          Cookies.remove("personn")
+          //chargement terminer
+          setLoad(true)
+          
+          Cookies.set("personn",JSON.stringify(response.data),{expires:1})
+          
+          const cookieValue = Cookies.get('personn');
+          if (cookieValue!==undefined) {
+            const parsedObject = JSON.parse(cookieValue);
+            setConnect([parsedObject])
+          } else {
+            setConnect([])
+  
+          }
+  
+          
+          //recuperer les commande de l'utilisateur
+          getCommande(response.data.id,response.data.token)
+          //rafraichir le formulaire et fermerture du modal
+          reset()
+          document.querySelector("#clodeModal").click()
+        }).catch((response)=>{
+         
+          //affichage de l'erreur
+          setMessage(response.data.message)
+          setError(true)
+          //chargement terminer
+          setLoad(true)
+        })
+     
   }
   return (
     <>

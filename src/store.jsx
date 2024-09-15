@@ -18,7 +18,6 @@ export const useStore = create((set) => {
     comt:[],
     setCommt:(commt)=>set((state)=>({comt:[...state.comt,commt]})),
     updateCommnt:(list)=>set(()=>({comt:list})),
-    host : "https://backend-restaurant-git-main-takamdev-s-projects.vercel.app"
 
 }
 })

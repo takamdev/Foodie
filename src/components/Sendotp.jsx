@@ -4,8 +4,8 @@ import  { useState } from 'react'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import axios from 'axios'
-import { useStore } from '../store.jsx'
+import {reqOtpVerication } from "../api/service.js";
+import { useEffect } from "react";
 const schema = yup
   .object({
     token: yup.number("uniquement les nombres").positive("uniquement positive").integer("uniquement les entiers").required("invalide"),
@@ -13,10 +13,24 @@ const schema = yup
   .required()
 
 function Sendotp({setvue,setVueGlobal,dataUser}) {
+    const [slip,setSlip]=useState(12)
     const [errOtp,setError]=useState(false)
-    const host = useStore((state)=>state.host)
     const [checkUser ,setChekUser] = useState(false)
     const [load,setLoad]=useState(true)
+    useEffect(()=>{
+        if(slip===0){
+            return ()=>{
+                clearInterval(timer)
+            }
+        }
+        const timer = setInterval(() => {
+          setSlip(v=>v-1)
+        }, 1000);
+
+        return ()=>{
+            clearInterval(timer)
+        }
+    },[slip])
      const {
          register,
          handleSubmit,
@@ -35,7 +49,7 @@ function Sendotp({setvue,setVueGlobal,dataUser}) {
             token:data.token
     
        }
-       axios.post(host+'/api/sign-up/otp-auth',user).then(response=>{
+       reqOtpVerication(user).then(()=>{
         setChekUser(true)
         setTimeout(() => {
             setLoad(true)
@@ -45,10 +59,11 @@ function Sendotp({setvue,setVueGlobal,dataUser}) {
 
         }, 2600);
             
-        }).catch(({response})=>{
+        }).catch((response)=>{
             setError(true)
             console.log(response.data);
         })
+      
     }
     return (
         <>
@@ -59,6 +74,13 @@ function Sendotp({setvue,setVueGlobal,dataUser}) {
                     <form onSubmit={handleSubmit(onSubmit)} className='vstack align-items-center'>
                     <h3 className='text-center'>vérification OTP</h3>
                     <p className='text-center'>nous avons envoyez un code de verification a l&apos;addresse: <b>{dataUser.email}</b></p>
+                    {
+                        slip!==0 ? (
+                            <p className='text-center'>il vous reste <span className="text-danger fs-4"  >{slip}</span> seconde pour entrez le code</p>
+                        ):(
+                            <p className='text-danger fs-3'>vous avez mis trop de temps</p>
+                        )
+                    }
                     <input onChange={()=>setError(false)}  {...register("token")} type="text" className='form-control w-50' placeholder='entrez le code' />
                     <p>{errors.token?.message}</p>                                                                                                                                    
                     {errOtp&&<p className='text-danger'>le code que vous avez saisie est invalide</p>}

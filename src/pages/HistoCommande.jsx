@@ -1,24 +1,16 @@
 
-import axios from 'axios'
 import {useState,useEffect} from 'react'
 import { useStore } from '../store.jsx'
 
 import { AiFillDelete } from "react-icons/ai"; 
+import { reqDeleteComd, reqGetComdHist } from '../api/service.js';
 export default function HistoCommande() {
     const isConnect = useStore((state)=>state.isConnect)
     const produit = useStore((state)=>state.produit)
-    const host = useStore((state)=>state.host)
     const [commd,setCommd]=useState([])
     const [load,setLoad]=useState(true)
     const deleteCommd = (id)=>{
-        const Axios = axios.create({
-            headers:{
-                authorization:`Bearer ${isConnect[0].token}`,
-               
-            }
-        })
-
-        Axios.post(host+`/api/commd/delete/${id}`,{ userId:isConnect[0].id}).then(res=>{
+        reqDeleteComd(id,isConnect[0]).then((res)=>{
             const newCommd = commd.filter(item=>item.id!==id)
             setCommd(newCommd)
         }).catch(err=>console.log(err))
@@ -27,31 +19,25 @@ export default function HistoCommande() {
     
     useEffect(()=>{
         if(isConnect.length!==0){
-            const Axios = axios.create({
-                headers:{
-                    authorization:`Bearer ${isConnect[0].token}`,
-                    userId:isConnect[0].id
-                }
-            })
+            // appel des la quette
+            reqGetComdHist(isConnect[0]).then(res=>{
 
-            Axios.get(host+`/api/commande/${isConnect[0].id}`).then(res=>{
-
-               const response = res.data.commande
-
-               const commande = response.map(item=>{
-                  const result = {
-                    detail: produit.filter(prod=>prod._id===item.id_prod_comd)[0],
-                    qte:item.qte,
-                    date:`${item.createdAt.slice(0,10)}    ${item.createdAt.slice(11,16)}`,
-                    id:item._id
-                  }
-                  return result
-               })
-
-               setCommd(commande)
-               setLoad(false)
-               console.log("ok");
-            }).catch(err=>console.log(err))
+                const response = res.data.commande
+ 
+                const commande = response.map(item=>{
+                   const result = {
+                     detail: produit.filter(prod=>prod._id===item.id_prod_comd)[0],
+                     qte:item.qte,
+                     date:`${item.createdAt.slice(0,10)}    ${item.createdAt.slice(11,16)}`,
+                     id:item._id
+                   }
+                   return result
+                })
+ 
+                setCommd(commande)
+                setLoad(false)
+                console.log("ok");
+             }).catch(err=>console.log(err))
        }
     },[isConnect.length>0])
     if(!load){

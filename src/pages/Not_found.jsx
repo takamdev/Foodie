@@ -7,9 +7,9 @@ function Not_found() {
     <section className="row d-flex justify-content-center align-items-center vh-100">
         <div className="col">
             <p className="text-center">
-                <span>Page 404</span>
+                <span>404 Not_found </span>
                 <span>
-                        cliquer <Link to="/">ICI</Link> pour aler à la page d&apos;acceuil
+                        cliquer <Link to="/">ICI</Link> pour aller à la page d&apos;acceuil
                     </span>
             </p>
         </div>

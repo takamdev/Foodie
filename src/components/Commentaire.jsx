@@ -1,13 +1,12 @@
 
 import { TiDelete } from "react-icons/ti"; 
 import { useStore } from '../store.jsx'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { IoMdSend } from 'react-icons/io'
+import { reqDeleteCommt, reqGetCommt, reqPostCommt } from "../api/service.js";
 
 function Commentaire({id}) {
     const isConnect = useStore((state)=>state.isConnect)
-    const host = useStore((state)=>state.host)
     const [comt,setCommt]=useState([])
     const [comment,setComment] = useState("")
     const [isvalid,setValid]=useState(true)
@@ -17,25 +16,20 @@ function Commentaire({id}) {
     useEffect(()=>{
 
         if(isConnect.length!==0){
-            const Axios = axios.create({
-              headers:{
-                  authorization:`Bearer ${isConnect[0].token}`,
-                  userId:isConnect[0].id
-              }
-            })
-            Axios.get(host+`/api/commentaire/${id}`)
-            .then(res=>{
-                  const commentaires = res.data.commantaire.map(item=>{
-                      return {
-                          comment:item.commantaire,
-                          name:item.name_util_commt,
-                          id:item._id
-                          }
-                  })
-                  // EVITER LES COMMANTAIRES EN DOUBLE   
-                  setCommt(commentaires)
-                
-            }).catch(err=>console.log(err))
+            const user = isConnect[0]
+            reqGetCommt(id,user).then(res=>{
+                const commentaires = res.data.commantaire.map(item=>{
+                    return {
+                        comment:item.commantaire,
+                        name:item.name_util_commt,
+                        id:item._id
+                        }
+                })
+                // EVITER LES COMMANTAIRES EN DOUBLE   
+                setCommt(commentaires)
+              
+          }).catch(err=>console.log(err))
+            
           }
 
     },[isConnect.length!==0])
@@ -59,37 +53,32 @@ function Commentaire({id}) {
         }
         setCommt(v=>[...v,commentaire]);
           
-           const Axios = axios.create({
-               headers:{
-                   authorization:`Bearer ${isConnect[0].token}`
-               }
-           })
+
              const commt = {
                commantaire:comment,
                name_util_commt:isConnect[0].userName,
                id_prod_commt:id,
                userId:isConnect[0].id
              }
-
-             Axios.post(host+"/api/commt/post",commt).then(res=>{
-               setComment("")
-               setValid(true)
-             }).catch(err=>{
-               console.log(err);
-             })
+             const user = isConnect[0]
+             reqPostCommt(commt,user).then(()=>{
+                setComment("")
+                setValid(true)
+              }).catch(err=>{
+                console.log(err);
+              })
+             
           
     }
     const deleteCommt = (id)=>{
-        const Axios = axios.create({
-            headers:{
-                authorization:`Bearer ${isConnect[0].token}`
-            }
-        })
+
+        const user = isConnect[0]
         ///api/comment/delete/:id
-        Axios.post(host+`/api/comment/delete/${id}`,{userId:isConnect[0].id}).then(res=>{
+        reqDeleteCommt(id,user).then(()=>{
             let filter = comt.filter(item=>item.id!==id)
             setCommt(filter);
         }).catch(err=>console.log(err))
+
     }
     return(
             <>
