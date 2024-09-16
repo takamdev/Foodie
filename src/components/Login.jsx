@@ -67,7 +67,7 @@ function Login({setVue,vue,resetform}) {
         password:data.password
       }
         reqLogin(user).then(response=>{
-          Cookies.remove("personn")
+          
           //chargement terminer
           setLoad(true)
           
