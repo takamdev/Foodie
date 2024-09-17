@@ -67,4 +67,18 @@
   }
 
 
- 
+ .password-input{
+  position: relative !important;
+ }
+ .password-input .eye{
+ position: absolute !important;
+ right: 20px;
+ top: 15px;
+ transform: scale(1.5);
+ z-index: 500;
+}
+
+#footer{
+  position: relative !important;
+  bottom: 10px !important;
+}

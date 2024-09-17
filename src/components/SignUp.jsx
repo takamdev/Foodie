@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import Sendotp from './Sendotp.jsx'
 import  {reqRegister}  from "./../api/service.js";
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 const schema = yup
   .object({
     userName: yup.string().required(),
@@ -22,7 +23,7 @@ function SignUp({setVue,vue,resetform}) {
    const [load , setLoad]= useState(true)
    const [message,setMessge]=useState('')
    const [error,setError]=useState(false)//etat d'affichage de l'erreur
-
+   const [inputType,setInputType]=useState(true)
     const {
         register,
         handleSubmit,
@@ -65,23 +66,37 @@ function SignUp({setVue,vue,resetform}) {
        })
 
       }
-
+      const setEye=()=>{
+        setInputType(!inputType)
+      }
   return (
     <>
        {
         thisVue ? (
           <form onSubmit={handleSubmit(onSubmit)} className='vstack  align-items-center justify-content-center'>
             {error&& <p className='text-danger'>{message}</p>}
+
             <input {...register("userName")} className='form-control pt-2 pb-2' type="text" placeholder="nom d'utilisateur" />
             <p className='text-danger'>{errors.userName?.message}</p>
+
             <input {...register("email")} type="text" className='form-control pt-2 pb-2' placeholder='email' />
             <p className='text-danger'>{errors.email?.message}</p>
+
             <input {...register("tel")} type="text" className='form-control pt-2 pb-2' placeholder='telephone' />
             <p className='text-danger'>{errors.tel?.message}</p>
-            <input {...register("password")} type="password" className='form-control pt-2 pb-2' placeholder='mot de passe' />
-            <p className='text-danger'>{errors.password?.message}</p>
-            <input {...register("confirmPassword")} type="password" className='form-control pt-2 pb-2' placeholder='repeter le mot de passe' />
+
+            <p className='form-control p-0 password-input mb-0'>
+              <input   {...register("password")} type={inputType?"password":"text"} className='form-control pt-2 pb-2' placeholder='mot de passe' />
+             {inputType?<AiFillEyeInvisible onClick={setEye} className="eye"/>: <AiFillEye onClick={setEye} className="eye"/>} 
+            </p>
+            <p className='text-danger pt-0'>{errors.password?.message}</p>
+
+            <p className='form-control p-0 password-input mb-0'>
+              <input   {...register("confirmPassword")} type={inputType?"password":"text"} className='form-control pt-2 pb-2' placeholder='repeter le mot de passe' />
+             {inputType?<AiFillEyeInvisible onClick={setEye} className="eye"/>: <AiFillEye onClick={setEye} className="eye"/>} 
+            </p>
             <p className='text-danger'>{errors.confirmPassword?.message}</p>
+
             <button type='submit' disabled={!load} className='btn btn-secondary w-50 pt-1 pb-1'>{
               load ? (
               "S'inscrire"

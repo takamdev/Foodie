@@ -1,3 +1,5 @@
+import { AiFillEye } from "react-icons/ai"; 
+import { AiFillEyeInvisible } from "react-icons/ai"; 
 import { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -16,6 +18,7 @@ function Login({setVue,vue,resetform}){
   const [load ,setLoad]= useState(true)//etat de chargement
   const [error,setError]=useState(false)//etat d'affichage de l'erreur
   const [message,setMessage]=useState('')
+  const [inputType,setInputType]=useState(true)
   const setConnect = useStore((state)=>state.setConnect)
 
   const produit = useStore((state)=>state.produit)
@@ -39,7 +42,9 @@ function Login({setVue,vue,resetform}){
     console.log(error);
   })
 }
-
+const setEye=()=>{
+  setInputType(!inputType)
+}
   const {
     register,
     watch,
@@ -97,7 +102,10 @@ function Login({setVue,vue,resetform}){
         <form onSubmit={handleSubmit(onSubmit)} className='vstack  align-items-center justify-content-center'>
             <input   {...register("email")} className='form-control pt-2 pb-2' type="text" placeholder="votre email... ou nom d'utilisateur" />
             <p className='text-danger'>{errors.email?.message}</p>
-            <input   {...register("password")} type="password" className='form-control pt-2 pb-2' placeholder='votre mot de passe...' />
+            <p className='form-control p-0 password-input mb-0'>
+              <input   {...register("password")} type={inputType?"password":"text"} className='form-control pt-2 pb-2' placeholder='votre mot de passe...' />
+             {inputType?<AiFillEyeInvisible onClick={setEye} className="eye"/>: <AiFillEye onClick={setEye} className="eye"/>} 
+            </p>
             <p className='text-danger'>{errors.password?.message}</p>
             <p className='text-danger'>{error&&message}</p>
             <button disabled={!load} type='submit' className='btn btn-secondary w-50'>{
