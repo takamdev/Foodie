@@ -13,7 +13,7 @@ const schema = yup
   .required()
 
 function Sendotp({setvue,setVueGlobal,dataUser}) {
-    const [slip,setSlip]=useState(12)
+    const [slip,setSlip]=useState(1800)
     const [errOtp,setError]=useState(false)
     const [checkUser ,setChekUser] = useState(false)
     const [load,setLoad]=useState(true)
