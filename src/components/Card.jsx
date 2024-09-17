@@ -45,18 +45,17 @@ export default function Card({ produit }) {
             <AiFillPlusCircle onClick={()=>{addToCard(produit._id)}} role="button" className="icone" />
          </div>
          <div className="card-body">
-            <h5 className="card-title hstack"><span className="titre me-auto">{
+            <h5 className="card-title hstack"><span className=" me-auto">{
                
                produit.name.length>8 ? produit.name.slice(0,8)+"..." : produit.name
                
-               }</span> <span className="ms-auto titre ">★ ★ <i className="text-danger">★</i></span></h5>
+               }</span> <span className="ms-auto "><i className="text-danger">★</i> ★ ★</span></h5>
             <p className="card-text">
                {produit.description}
             </p>
            <p className="hstack">
              <span className="text-danger">{produit.price} FCA</span>
              <span className="ms-auto">{produit.category}</span>
-
            </p>
          </div>
       </div>
