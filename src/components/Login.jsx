@@ -67,10 +67,6 @@ function Login({setVue,vue,resetform}){
         password:data.password
       }
         reqLogin(user).then(response=>{
-<<<<<<< HEAD
-=======
-          
->>>>>>> 7a6c4c9badfecda89488cfe361d5a7bc95745cb1
           //chargement terminer
           setLoad(true)
           
