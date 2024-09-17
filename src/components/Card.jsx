@@ -30,7 +30,7 @@ export default function Card({ produit }) {
     
    return (
       <div className="card">
-         <div className="imageHome">
+         <div className="imageHome overflow-hidden">
         
             <img
                 src={`/${produit.image}`}

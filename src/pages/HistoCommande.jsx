@@ -42,7 +42,7 @@ export default function HistoCommande() {
     },[isConnect.length>0])
     if(!load){
         if(commd.length!==0)return (
-            <div className="table-responsive">
+            <div className="table-responsive" style={{height:"78vh"}}>
                     <table className="table">
                         <thead>
                             <tr>
@@ -80,7 +80,7 @@ export default function HistoCommande() {
                </div>
           )
           else return (
-            <div className='container-fluid mt-5'>
+            <div className='container-fluid mt-5 p-5' style={{height:"78vh"}}>
                 <p className='text-center fs-4'>Vous n&apos;avez aucune commande en cours</p>
             </div>
           )

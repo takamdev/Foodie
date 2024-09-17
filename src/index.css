@@ -18,7 +18,12 @@
     margin: 0;
   }
   
-  
+  .imageHome img{
+    transition: all ease-in-out .2s;
+   }
+  .imageHome img:hover{
+   transform: scale(1.2);
+  }
   
   .imageHome {
     position: relative !important;
