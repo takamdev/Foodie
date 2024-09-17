@@ -219,7 +219,9 @@ const logOut = ()=>{
 
       <nav className="navbar navbar-expand-lg bg-body-tertiary fixed-top">
           <div className="container-fluid">
-            <Link className="navbar-brand fw-bold" href="/">FOODIE</Link>
+            <Link className="navbar-brand fw-bold" href="/">
+              <img className="w-50" src="/public/assets/logo/1.png" alt="image" />
+            </Link>
             <button className={`navbar-toggler`} type="button" id="navbarToggle" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>

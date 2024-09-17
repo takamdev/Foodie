@@ -48,7 +48,7 @@ function Contact() {
   }
 
   return (
-    <section className='container mt-5'>
+    <section className='container mt-5' style={{height:"78vh"}}>
     <p className=' text-center fw-bold fs-2'>Contact Us</p>
        <article className='row mt-3 mb-3'>
         <div className="col-sm-12 col-md-6 col-lg-6">
