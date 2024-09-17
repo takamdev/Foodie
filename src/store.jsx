@@ -1,8 +1,6 @@
 import { create } from 'zustand'
 
 export const useStore = create((set) => {
-
-
   return  {
     produit: [],
     menu:[],
@@ -17,7 +15,6 @@ export const useStore = create((set) => {
     resetCard:(list)=>set(()=>({CARD:list})),
     comt:[],
     setCommt:(commt)=>set((state)=>({comt:[...state.comt,commt]})),
-    updateCommnt:(list)=>set(()=>({comt:list})),
-
+    updateCommnt:(list)=>set(()=>({comt:list}))
 }
 })

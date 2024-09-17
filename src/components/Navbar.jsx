@@ -30,10 +30,7 @@ function Navbar() {
     const [load,SetLoad]=useState(true)
     // gesion des session avec cookie
   useEffect(()=>{
-    Cookies.remove("personn")
     const cookieValue = Cookies.get('personn');
-    
-    
     if (cookieValue!==undefined) {
  
      const parsedObject = JSON.parse(cookieValue);

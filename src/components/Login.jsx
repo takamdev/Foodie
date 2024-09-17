@@ -12,7 +12,7 @@ const schema = yup
     password: yup.string().required()
   })
   .required()
-function Login({setVue,vue,resetform}) {
+function Login({setVue,vue,resetform}){
   const [load ,setLoad]= useState(true)//etat de chargement
   const [error,setError]=useState(false)//etat d'affichage de l'erreur
   const [message,setMessage]=useState('')
@@ -38,8 +38,8 @@ function Login({setVue,vue,resetform}) {
   }).catch(error=>{
     console.log(error);
   })
+}
 
-  }
   const {
     register,
     watch,
@@ -67,20 +67,14 @@ function Login({setVue,vue,resetform}) {
         password:data.password
       }
         reqLogin(user).then(response=>{
-          Cookies.remove("personn")
           //chargement terminer
           setLoad(true)
           
           Cookies.set("personn",JSON.stringify(response.data),{expires:1})
           
           const cookieValue = Cookies.get('personn');
-          if (cookieValue!==undefined) {
-            const parsedObject = JSON.parse(cookieValue);
+           const parsedObject = JSON.parse(cookieValue);
             setConnect([parsedObject])
-          } else {
-            setConnect([])
-  
-          }
   
           
           //recuperer les commande de l'utilisateur
@@ -89,7 +83,6 @@ function Login({setVue,vue,resetform}) {
           reset()
           document.querySelector("#clodeModal").click()
         }).catch((response)=>{
-         
           //affichage de l'erreur
           setMessage(response.data.message)
           setError(true)
@@ -98,6 +91,7 @@ function Login({setVue,vue,resetform}) {
         })
      
   }
+
   return (
     <>
         <form onSubmit={handleSubmit(onSubmit)} className='vstack  align-items-center justify-content-center'>

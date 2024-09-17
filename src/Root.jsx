@@ -5,7 +5,6 @@ import { useStore } from "./store.jsx"
 import { useEffect } from "react"
 import { Toaster } from "sonner"
 import { reqGetAll } from "./api/service.js"
-
 function Root() {
   const produit = useStore((state)=>state.produit)
   const updateProduit = useStore((state)=>state.updateProduit)
