@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseUrl = "https://backend-restaurant-beta.vercel.app/"
+const baseUrl = "https://backend-restaurant-six.vercel.app/"
 
 
 const Axios = new axios.create({
